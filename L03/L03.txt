@@ -1,6 +1,129 @@
-----FOOL, THERE IS NO LAB03-------
+Question 3.1.1
 
+lists, where a member of the list can point to itself
+---------------------------------------------------
+Question 3.1.2
+It is possible, we can constrain properties of C/Java with a boolean expression
+List{length <= 42} is one example
+---------------------------------------------------
+Question 3.2.1 ***
+---------------------------------------------------
+Question 3.3.1
+In Computer Science, the "billion dollar mistake" is known as the Null References, creation of Tony Hoare
+---------------------------------------------------
+Question 3.3.2
+If a pointer is not given a specific value, it will be given the value 0 or NULL at compile time
+I assume, based on my programming expirience, the same can be said for both C/C++
+---------------------------------------------------
+Question 3.3.3 ***
+---------------------------------------------------
+Question 3.4.1
+Time complexity of:
+1. Insert at the list beginning (head): O(1)
+2. Insert at the list end (tail): O(1)
+3. Get the i-th element: O(n)
+---------------------------------------------------
+Question 3.4.2
+Algorithmic complexity of the "appendTail" function: O(n)
+---------------------------------------------------
 
+Exercises:
 
+3.4.1
+> len list =
+|   case list of
+|    [] -> 0
+|    x :: xs -> 1 + len xs
+---------------------------------------------------
+3.4.2
+b1 = 3741
+b2 = 3742
+---------------------------------------------------
+3.5.1
 
-yet
+safeDiv : Int -> Int -> Maybe Int
+safeDiv a b =
+ if b == 0 the Nothing
+ else Just (a//b)
+---------------------------------------------------
+3.5.2
+
+lenTail : List Int -> Int 
+lenTail l = 
+ let 
+  countLength : Int -> List Int -> Int  
+  countLength acc lst = 
+   case lst of 
+    [] -> acc 
+    x :: xs -> countLength (acc + 1) xs
+ in 
+  countLength 0 l
+---------------------------------------------------
+3.5.3
+
+I made it in 2 ways:
+
+lastEl : List a -> Maybe a
+lastEl list =
+    case list of
+        [] -> Nothing
+        [last] -> Just last
+        z :: rest -> lastEl rest
+
+And the new way learned today in lab4 (which is to reverse the list and print out the head of the list):
+
+lastEl2 : List a -> Maybe a
+lastEl2 list =
+    let x = foldl (::) [] list
+    in head x
+
+---------------------------------------------------
+3.5.4
+
+indexList : Int -> List Int -> Maybe  Int
+indexList i l =
+    let
+        getElem : Int -> List Int -> Maybe Int
+        getElem rem lst =
+           case lst of
+            [] -> Nothing
+            x :: xs -> if rem == 0 then Just(x)
+                        else getElem (rem - 1) xs
+    in
+     if i<0 then Nothing
+     else getElem i l
+---------------------------------------------------
+3.5.5
+fibs : Int -> Int -> List Int
+fibs start end =
+    let
+        a=1
+        b=0
+        c=[]
+        fiblist : Int -> Int -> Int -> List Int -> List Int
+        fiblist p2 p1 i lst =
+            if i == end then lst
+            else if i >=start then fiblist p1 (p2+p1) (i+1) (lst ++ [p2+p1])
+            else fiblist p1 (p2+p1) (i+1) lst
+    in
+    fiblist a b 0 c
+---------------------------------------------------
+3.5.6
+
+fibsTuples: Int -> Int -> List (Int, Int)
+fibsTuples start end =
+ let
+  a=1
+  b=0
+  c=[]
+  fiblist : Int -> Int -> Int -> List (Int, Int) -> List (Int, Int)
+  fiblist p2 p1 i lst=
+   if i == end then lst
+   else if i >= start then fiblist p1 (p2 + p1) (i + 1) (lst ++ [(i, p2 + p1)])
+   else fiblist p1 (p2 + p1) (i + 1) lst
+ in
+  fiblist a b 0 c
+---------------------------------------------------
+3.5.7 ***
+---------------------------------------------------
+3.5.8 ***

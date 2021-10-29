@@ -1,0 +1,58 @@
+Lab 4
+
+Questions:
+
+4.1.1
+
+In order to prevent a class instance to be created, we create a private constructor
+public class x
+{
+private x() {} //thus, I prevent instances
+}
+-------------------------------------------------------
+4.4.1
+foldl is tail recursive
+foldr is not
+-------------------------------------------------------
+
+
+Problems:
+
+4.6.1
+
+enumerate: List a -> List (Int, a)
+enumerate lst = 
+ let 
+  innerEnumerator: Int -> List a -> List (Int, a)
+  innerEnumerator crtIndex tempList=
+   case tempList of 
+    [] -> []
+    x :: xs -> (crtIndex, x) :: innerEnumerator (crtIndex + 1) xs 
+ in 
+  innerEnumerator 0 lst
+---------------------------------------------------------------------
+4.6.2
+
+repeat: Int -> a -> List a
+repeat n elem  = 
+ if n == 0 then []
+ else elem :: repeat (n-1) elem
+
+---------------------------------------------------------------------
+4.6.3
+
+countVowels : String -> Int 
+countVowels str = 
+ let 
+  charList = String.toList str 
+
+  counter : Int -> List Char -> Int 
+  counter n lst = 
+   case lst of 
+    [] -> n 
+    x :: xs -> if x == 'a' || x == 'e' || x == 'i' || x == 'o' ||x == 'u'
+                  then counter (n+1) xs 
+               else counter n xs
+ in 
+  counter 0 charList 
+---------------------------------------------------------------------

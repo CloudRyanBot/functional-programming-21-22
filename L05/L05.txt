@@ -1,1 +1,94 @@
 
+(*Note: No (***) exercise or question was solved here... or on moodle)
+
+Questions : 
+
+5.2.1
+
+The difference is that the pipeline operator is generally used 
+in the context of values, while composition deals with functions.
+----------------------------------------------------
+5.2.2
+
+(|> or <|) is useful when you have a value and you want to put it through one segment of pipe
+after another and get a value out the other side. 
+(>> or <<) is for connecting bits of pipe together in advance
+to create a longer pipe that you can then push a value through later.
+
+If I have a value around and I want a value out the other side then I use |>.
+If I want a reusable longer section of pipe I can use >>.
+----------------------------------------------------
+
+Exercises :
+
+5.2.1
+
+applyTwice (inc >> triple) 1
+
+First we take 1, which gets incremented, and then tripled, resulting in 6
+applyTwice does the same process again, this time with 6, instead of 1
+6 gets incremented to 7, and then tripled to 21
+----------------------------------------------------
+5.2.2
+
+allPi pred l = 
+  l 
+    |> map (\x -> pred x)
+    |> foldl (&&) True 
+
+anyPi pred l =
+  l
+    |> map (\x -> pred x)
+    |> foldl (||) False
+
+----------------------------------------------------
+5.8.1
+
+countVowels : String -> Int
+countVowels str =
+ let
+  counter : List Char -> Int -> Int
+  counter lst n =
+   case lst of
+    [] -> n
+    x :: xs -> if x == 'a' || x == 'e' || x == 'i' || x == 'o' ||x == 'u' ||x=='A' ||x=='E' ||x=='I' ||x=='O' ||x=='U'
+                  then counter xs (n |> (\q -> q+1))
+               else counter xs (n |> (\q -> q+0))
+ in
+  (String.toList >> counter) str 0
+----------------------------------------------------
+5.8.2
+
+type alias AccountConfiguration =
+  { preferredTheme: ThemeConfig
+  , subscribedToNewsletter: Bool
+  , twoFactorAuthOn: Bool
+  }
+
+
+changePreferenceToDarkTheme : List AccountConfiguration -> List AccountConfiguration
+changePreferenceToDarkTheme accounts =
+    accounts |> List.map (\a -> {a | preferredTheme = Dark})
+
+----------------------------------------------------
+5.8.3
+
+type alias UserDetails = 
+  { firstName: String
+  , lastName: String
+  , phoneNumber: Maybe String
+  }
+type alias User = {id: String, email: String, details: UserDetails}
+
+--I dont know =((
+----------------------------------------------------
+5.8.4
+
+chunks: Int -> List a -> List (List a)
+chunks n l =
+    if n <= 0 then 
+        []
+    else
+        case l of
+            [] -> []
+            _ -> (List.take n l)::(chunks n (List.drop n l))

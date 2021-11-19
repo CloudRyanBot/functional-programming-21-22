@@ -1,0 +1,72 @@
+7.6.3
+
+type alias Country =
+    { name : String
+    , area : Float
+    , region : String
+    , population : Float
+    }
+
+decodeCountry : Dec.Decoder Country
+decodeCountry =
+    Dec.map4 Country
+        (Dec.at  ["name", "common"] Dec.string)
+        (Dec.field "area" Dec.float)
+        (Dec.field "region" Dec.string)
+        (Dec.field "population" Dec.float)
+
+viewCountry : Country -> Html msg
+viewCountry {name, area, region, population} =
+    div [style "border" "solid 1px", style "margin" "2px"] 
+        [ p [] [text <| "Name:" ++ name]
+        , p [] [text <| "Area: " ++ String.fromFloat area]
+        , p [] [text <| "Population: " ++ String.fromFloat population]
+        , p [] [text <| "Density: " ++ String.fromFloat (population/area)]
+        ]
+----------------------------------------------------------
+7.6.4
+viewSuccess : List Country -> Html msg
+viewSuccess countries chk =
+    let
+            sortedCountries = List.sortBy .area countries
+            sorting =  List.reverse sortedCountries
+        in
+        div [] ([
+            h2 [] [ text "ok" ]
+            , text "Sort Descending"
+        ]
+        ++(List.map viewCountry sorting))
+
+---------------------------------------------------------------
+7.6.5
+type Msg
+    = ChangeSort Bool
+    | GetCountries
+    | GotCountries (Result Http.Error (List Country))
+
+update : Msg -> Model -> ( Model, Cmd Msg )
+update msg model =
+    case msg of
+        ChangeSort p ->
+                    case model of
+                        Success countries _ ->
+                            ( Success countries p
+                            , Cmd.none
+                            )
+                        _ -> ( Error (Http.BadStatus 400)
+                            , Cmd.none
+                            )
+	....
+
+viewSuccess : List Country -> Bool -> Html Msg
+viewSuccess countries chk =
+    let
+            sortedCountries = List.sortBy .area countries
+            sorting = if (not chk) then List.reverse sortedCountries else sortedCountries
+        in
+        div [] ([
+            h2 [] [ text "ok" ]
+            , input [type_ "checkbox", onCheck ChangeSort, checked chk] []
+            , text "Change sorting (Unchecked is Descenging / Checked is Ascending)"
+        ]
+        ++(List.map viewCountry sorting))

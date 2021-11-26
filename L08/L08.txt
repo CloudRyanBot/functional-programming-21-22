@@ -1,0 +1,43 @@
+8.8.1
+
+When comparing both, calculating the number takes a longer time for "fact 100000".
+For printing as well, but not by much. The biggest difference is at calculating the number.
+-----------------------------------
+8.14.1
+
+sudan 0 x y = x + y
+sudan n x 0 = x
+sudan n x y = sudan (n-1) e (y+e) where e = sudan n x (y-1)
+-----------------------------------
+8.14.2
+infixl 3 !& 
+
+True !& True = False
+_ !& _ = True
+-----------------------------------
+8.14.3
+
+safeHead [] = Nothing
+safeHead (x:xs) = Just x
+
+safeTail [] = Nothing
+safeTail (x:xs) = Just xs
+-----------------------------------
+8.14.4
+
+average :: [Int] -> Float
+average l = (fromIntegral (sum l)) / (fromIntegral(length l)) 
+-----------------------------------
+8.14.5
+
+isVowel :: Char -> Bool
+isVowel x = case x of
+    'a' -> True
+    'e' -> True
+    'i' -> True
+    'o' -> True
+    'u' -> True
+    otherwise -> False
+
+countVowels :: String -> Int
+countVowels s = length $ filter isVowel s

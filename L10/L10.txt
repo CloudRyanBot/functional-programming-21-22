@@ -1,1 +1,30 @@
+10.9.1
 
+instance Show Op where
+  show Add = "+"
+  show Sub = "-"
+  show Mul = "*"
+  show Div = "/"
+
+------------------------------
+10.9.2
+
+instance YesNo  (Maybe a)  where
+  yesno (Just _) =True
+  yesno Nothing = False
+  
+-------------------------------
+10.9.3
+
+
+instance Container Tree where
+  hasElem  Nil _ = False
+  hasElem tf e =
+    case tf of
+      Nil -> False
+      Node left toFind right ->
+        if toFind == e then True
+        else (hasElem left e)||(hasElem right e)
+  nrElems Nil = 0
+  nrElems(Node x _ z) = 1 + nrElems x + nrElems z
+-----------------------------
